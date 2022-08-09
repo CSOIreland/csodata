@@ -36,7 +36,7 @@ head(toc)
 
 #### Downloading Data
 
-To download a dataset, use `cso_get_data`.
+To download a dataset, use `cso_get_data` and include a table code from the table of contents.
 
 ```{r}
 tbl1 <- cso_get_data("PEA19")
@@ -51,11 +51,11 @@ cso_disp_meta("CDP06")
 
 #### Geographic Data
 
-Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This uses a more recent map, including the 2016 revisions to the NUTS regions. Older 2011 data, which includes demographic information is also available.
-
+Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This is a map of county councils and other local authorities in Ireland,
+there are many other maps available.
 
 ```{r}
-shp <- cso_get_geo("cc")
+shp <- cso_get_geo("County Councils")
 ```
 
 This data can be plotted using the `tmap` package. Here we plot the outline of each region.
