@@ -19,15 +19,18 @@
 #'
 #' @param map_data string. Indicates which shapefile to download. Options are:
 #' \itemize{
-#'   \item "Provinces" OR "p",
-#'   \item "NUTS2",
-#'   \item "NUTS3",
-#'   \item "NUTS2_2011",
-#'   \item "NUTS3_2011",
-#'   \item "Administrative Counties" OR "admin_counties" OR "ac",
-#'   \item "Electoral Divisions" OR "elec_div" OR "ed",
-#'   \item "Small Areas" OR "sa" and
-#'   \item "Gaeltacht" OR "g".
+#'   \item "Local Authorities", "County Councils", "la" OR "cc"
+#'   \item "Constituencies" OR "Constituencies (2017)"  OR "con"
+#'   \item "Constituencies_2013" OR "Constituencies (2013)"
+#'   \item "Electoral Divisions" OR "elec_div" OR "ed"
+#'   \item "Gaeltacht" OR "g"
+#'   \item "Language Planning Areas" OR "lpa"
+#'   \item "Local Electoral Areas (2019)" , "lea_2019" , "lea (2019)" , "Local Electoral Areas" OR "lea"
+#'   \item "Local Electoral Areas (2014)" OR "lea_2014" OR "lea (2014)"
+#'   \item "NUTS3" OR "nuts3"
+#'   \item "Provinces" OR "p"
+#'   \item "Settlements" OR "s"
+#'   \item"Small Areas" OR "sa"
 #' }
 #' Until v0.1.5 "NUTS2" and "NUTS3" gave access to the 2011 dataset.
 #' @param cache logical. Indicates whether to cache the result using R.cache.
@@ -42,40 +45,73 @@
 #' }
 
 cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
-  dl_path <- "https://census.cso.ie/censusasp/saps/boundaries/"
+  
   # Set shapefile name ------------------
   fname <- dplyr::case_when(
-    map_data == "Provinces" || map_data == "p" ~
-      "Census2011_Province_generalised20m",
-    map_data == "NUTS2" ~ "NUTS2_Boundaries_Generalised_20m__OSi_National_Statistical_Boundaries__2015",
-    map_data == "NUTS3" ~ "NUTS3_Boundaries_Generalised_20m__OSi_National_Statistical_Boundaries__2015",
-    map_data == "NUTS2_2011" ~ "Census2011_NUTS2_generalised20m",
-    map_data == "NUTS3_2011" ~ "Census2011_NUTS3_generalised20m",
-    map_data == "Administrative Counties" ||
-      map_data == "admin_counties" || map_data == "ac" ~
-      "Census2011_Admin_Counties_generalised20m",
+    map_data == "Local Authorities" || map_data == "County Councils" ||
+      map_data == "la"|| map_data == "cc" ~
+      "Census2016_Local_Authorities",
+    map_data == "Constituencies"|| map_data == "Constituencies (2017)" 
+    || map_data == "con" ~
+      "2017_Constituencies",
+    map_data == "Constituencies_2013"|| map_data == "Constituencies (2013)" ~
+      "2013_Constituencies",
     map_data == "Electoral Divisions" ||
       map_data == "elec_div" || map_data == "ed" ~
-      "Census2011_Electoral_Divisions_generalised20m",
-    map_data == "Small Areas" || map_data == "sa" ~
-      "Census2011_Small_Areas_generalised20m",
+      "Census2016_Electoral_Divisions_generalised20m",
     map_data == "Gaeltacht" || map_data == "g" ~
-      "Census2011_Gaeltacht",
+      "Census2016_Gaeltacht",
+    map_data == "Language Planning Areas" || map_data == "lpa" ~
+      "Census2016_LPA",
+    map_data == "Local Electoral Areas (2014)" ||
+      map_data == "lea_2014" || map_data == "lea (2014)" ~
+      "2014_Electoral_Areas",
+    map_data == "Local Electoral Areas (2019)" ||
+      map_data == "lea_2019" || map_data == "lea (2019)" ||
+      map_data == "Local Electoral Areas" || map_data == "lea"  ~
+      "2019_Electoral_Areas",
+    map_data == "NUTS3" || map_data == "nuts3" ~ 
+      "Census2016_NUTS3_generalised20m",
+    map_data == "Provinces" || map_data == "p" ~
+      "Census2016_Province_generalised20m",
+    map_data == "Settlements" || map_data == "s" ~
+      "Census2016_Settlements_generalised20m",
+    map_data == "Small Areas" || map_data == "sa" ~
+      "Census2016_Small_Areas_generalised20m",
     TRUE ~ NA_character_
   )
-  
+  url <- dplyr::case_when(
+    fname == "Census2016_Local_Authorities" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/e4d3585d979c15653c7317a18d73b511",
+    fname == "2017_Constituencies" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/2b6b493d675f17c75de3d2a76e69ef34",
+    fname == "2013_Constituencies" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/91d1bb9ad7b0af2b8ca4361f944c3f57",
+    fname == "Census2016_Electoral_Divisions_generalised20m" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/ea4d7bf2683f1bbcafc8428c715235b6",
+    fname == "Census2016_Gaeltacht" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/feba4375fbb00dc945abab0e4477141f",
+    fname == "Census2016_LPA" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/9b504eb50b10e0087c2b4913ade4d10d",
+    fname == "2014_Electoral_Areas" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/e34a94319c050ca52766e193036eecaa",
+    fname == "2019_Electoral_Areas" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/f381d63507530cfc61df96fa5f766e31",
+    fname == "Census2016_NUTS3_generalised20m" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/57bf25130c4f5e8d086f314bbb98ef72",
+    fname == "Census2016_Province_generalised20m" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/9f352336de5e2a0d42455237888478b7",
+    fname == "Census2016_Settlements_generalised20m" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/1781a48b462bacb8eb860c716e24f609",
+    fname == "Census2016_Small_Areas_generalised20m" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/a9c563c15cc611817af939f70d1d1f04",
+    TRUE ~ NA_character_
+  )  
   # Need to separate error check. Including it in case_when causes error ---
   if (is.na(fname)) {
     stop("Not one of the available map files.")
   }
   
-  if (map_data == "NUTS2") {
-    url <- "https://opendata.arcgis.com/datasets/62e0cf326bab442897944e4dc4999c16_2.zip"
-  } else if (map_data == "NUTS3") {
-    url <- "https://opendata.arcgis.com/datasets/1a5d91a11ad9454d865ad426bbf5bc37_2.zip"
-  } else {
-    url <- paste0(dl_path, fname, ".zip")
-  }
   
   # Retreive cached data ----------------
   if (cache) {
@@ -99,7 +135,7 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   
   # No caching, or cache empty ----------
   tmpdir <- tempdir()
-  filepath <- paste0(tmpdir, "/", fname, ".zip")
+  filepath <- paste0(tmpdir, "/", fname, ".shp")
   
   
   # Error Messaging --------
@@ -111,70 +147,24 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   }, warning = function(w) {
     message(paste0("Warning: ", error_message))
     endfunc <<- TRUE
-    return(NULL)
   }, error = function(e) {
     message(paste0("Connection Error: ", error_message))
     endfunc <<- TRUE
-    return(NULL)
   })
-  
-  if(!endfunc){
-    tryCatch({
-      utils::unzip(filepath, exdir = tmpdir)
-    }, warning = function(w) {
-      message(paste0("Warning: ", error_message))
-      endfunc <<- TRUE
-      return(NULL)
-    }, error = function(e) {
-      message(paste0("Connection Error: ", error_message))
-      endfunc <<- TRUE
-      return(NULL)
-    })
+  if(endfunc){
+    return(NULL)
   }
-  
   if(!endfunc){
     
     
-    '
-  tryCatch({
-    utils::unzip(filepath, exdir = tmpdir)
-  }, warning = function(w) {
-    message(paste0("Warning: ", error_message))
-    return(NULL)
-  }, error = function(e) {
-    message(paste0("Connection Error: ", error_message))
-    return(NULL)
-  })
-  '
-    utils::unzip(filepath, exdir = tmpdir)
-    if (map_data == "NUTS2") {
-      shape_file <- paste0(tmpdir, "/", "c2f2dbb3-289e-45cc-ae79-791cbc9339632020330-1-1uh3380.g89t.shp")
-    } else if ( map_data == "NUTS3"){
-      shape_file <- paste0(tmpdir, "/", "527c3332-32cc-44cd-baa3-267a0e917b5a2020328-1-1cpklcw.flb0h.shp")
-    } else{
-      shape_file <- paste0(tmpdir, "/", fname, ".shp")
-    }
-    '
-  url <- "https://census.xcso.ie/censusasp/saps/boundaries/Census2011_NUTS3_generalised20m.zip"
-  filepath <- paste0(tmpdir, "\\", "zoo")
-  response <- tryCatch({
-    httr::GET(url)
-  }, warning = function(w) {
-    print(paste0("Warning: ", error_message))
-    return(NULL)
-  }, error = function(e) {
-    message(paste0("Connection Error: ", error_message))
-    return(NULL)
-  })
-  '
-    shp <- sf::st_read(shape_file, stringsAsFactors = F)
+    shp <- sf::st_read(filepath, stringsAsFactors = F)
     
     
-    if (map_data == "NUTS2" | map_data == "NUTS3") {
+    'if (map_data == "NUTS2" | map_data == "NUTS3") {
       # Transform OSi maps to use Irish grid projection, like CSO maps
       ire_proj = "+proj=tmerc +lat_0=53.5 +lon_0=-8 +k=1.000035 +x_0=200000 +y_0=250000 +datum=ire65 +units=m +no_defs"
       shp <- sf::st_transform(shp, ire_proj)
-    }
+    }'
     
     if (cache) {
       R.cache::saveCache(shp, key = list(fname), dirs = "csodata/geodata")
