@@ -9,15 +9,20 @@ cso_get_geo(map_data, cache = TRUE, flush_cache = TRUE)
 \arguments{
 \item{map_data}{string. Indicates which shapefile to download. Options are:
 \itemize{
-  \item "Provinces" OR "p",
-  \item "NUTS2",
-  \item "NUTS3",
-  \item "NUTS2_2011",
-  \item "NUTS3_2011",
-  \item "Administrative Counties" OR "admin_counties" OR "ac",
-  \item "Electoral Divisions" OR "elec_div" OR "ed",
-  \item "Small Areas" OR "sa" and
-  \item "Gaeltacht" OR "g".
+  \item "Local Authorities", "County Councils", "la" OR "cc"
+  \item "Local Authorities 2016", "County Councils 2016", "la2016" OR "cc2016"
+  \item "Constituencies" OR "Constituencies (2017)"  OR "con"
+  \item "Constituencies_2013" OR "Constituencies (2013)"
+  \item "Electoral Divisions" OR "elec_div" OR "ed"
+  \item "Gaeltacht" OR "g"
+  \item "Language Planning Areas" OR "lpa"
+  \item "Local Electoral Areas (2019)" , "lea_2019" , "lea (2019)" , "Local Electoral Areas" OR "lea"
+  \item "Local Electoral Areas (2014)" OR "lea_2014" OR "lea (2014)"
+  \item "NUTS3" OR "nuts3"
+  \item "Provinces" OR "p"
+  \item "Settlements" OR "s"
+  \item "Small Areas" OR "sa"
+  
 }
 Until v0.1.5 "NUTS2" and "NUTS3" gave access to the 2011 dataset.}
 

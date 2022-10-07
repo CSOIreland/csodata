@@ -16,7 +16,7 @@ Default value is TRUE.}
 files. Any files which have not been accessed in the last month will be deleted}
 }
 \value{
-list with eight elements:
+list with nine elements:
 \itemize{
   \item The title of the table.
   \item The units used (the R class of the value column)
@@ -28,6 +28,7 @@ list with eight elements:
   \item The names of the statistics included in the table, returned as a
   character vector with one element for each statistic.
   \item An indicator if the statistics are experimental
+  \item Returns if the data is geographic
 }
 }
 \description{
