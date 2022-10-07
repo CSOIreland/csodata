@@ -9,7 +9,7 @@
 #' Default value is TRUE.
 #' @param flush_cache logical. If TRUE (default) the cache will be checked for old, unused
 #' files. Any files which have not been accessed in the last month will be deleted
-#' @return list with eight elements:
+#' @return list with nine elements:
 #' \itemize{
 #'   \item The title of the table.
 #'   \item The units used (the R class of the value column)
@@ -21,6 +21,7 @@
 #'   \item The names of the statistics included in the table, returned as a
 #'   character vector with one element for each statistic.
 #'   \item An indicator if the statistics are experimental
+#'   \item Returns if the data is geographic
 #' }
 #' @export
 #' @examples
@@ -46,15 +47,22 @@ cso_get_meta <- function(table_code, cache = TRUE, flush_cache = TRUE) {
   copyright <- response_fj$extension$copyright$name
   experimental <- response_fj$extension$experimental
   
+  if (is.null(response_fj$dimension[[3]]$link$enclosure)){
+    geo <- FALSE
+  } else{
+    geo <- response_fj$dimension[[3]]$label
+  }
+  
+  
   list(
     Title = title, Time = time_period,
     Units = units, Date_last_modified = date_modified,
     Variables = vars, Statistics = stat,
     Copyright = copyright,
-    Is_Experimental = experimental
+    Is_Experimental = experimental,
+    Geographic = geo
   )
 }
-
 
 #' Returns a character vector listing the contents of a CSO data table
 #'
@@ -226,4 +234,6 @@ cso_disp_meta <- function(table_code) {
   print(meta$Variables)
   message("\nStatistics:")
   print(meta$Statistics)
+  message("\nGeographic Data:")
+  print(meta$Geographic)
 }
