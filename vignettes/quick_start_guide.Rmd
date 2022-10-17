@@ -20,15 +20,15 @@ knitr::opts_chunk$set(
 This guide provides a basic overview of the use of the csodata package for new users. Install (if necessary) and load the package:
 
 ```{r setup}
-# Install or update the package:
+# # Install or update the package:
 # install.packages("csodata")
 
-
+library(csodata)
 ```
 
 #### Table of Contents
 
-A list of all the table available on the cso StatBank can be downloaded with `cso_get_toc`. You can search through the title field using `cso_search_toc`. (A "Loaded cached toc" or "Loaded cached data" message indicates that the data was retrieved from the cache, instead of being downloaded again.)
+A list of all the table available on the cso StatBank can be downloaded with `cso_get_toc`. You can search throught the title field using `cso_search_toc`. (A "Loaded cached toc" or "Loaded cached data" message indicates that the data was retrieved from the cache, instead of being downloaded again.)
 ```{r}
 toc <- cso_get_toc()
 head(toc)
@@ -55,18 +55,20 @@ Geographic vector data in ESRI shapefile format can be downloaded for use in map
 there are many other maps available.
 
 ```{r}
-shp <- cso_get_geo("p")
+shp <- cso_get_geo("County Councils")
 ```
 
-This data can be plotted using the `tmap` package. Here we plot the outline of each region.
+This data can be plotted using the `leaflet` package. Here we plot the outline of each region.
 
-```{r, fig.width = 5, fig.height=6, eval= all(c(!is.null(shp),sf::st_is_valid(shp)))}
-# install.packages("tmap")
+```{r, fig.width = 5, fig.height=6, eval= !is.null(shp)}
+# install.packages("leaflet")
+library(leaflet)
 
-library(tmap)
-t <- plot(shp) 
-       
-t
+
+leaflet(shp) %>% 
+  addTiles() %>% 
+  addPolygons()
+
 
 ```
 
