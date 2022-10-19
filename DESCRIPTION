@@ -7,7 +7,8 @@ Authors@R: c(
     person("Eoin", "Horgan", email = "eoin.horgan@cso.ie", role = "aut", comment = c(ORCID = "0000-0002-3446-6154")),
 	person("Conor", "Crowley", email = "conor.crowley@cso.ie", role = c("aut", "cre")),
 	person("Vytas", "Vaiciulis", email = "Vytas.Vaiciulis@cso.ie", role = c("aut")),
-    person("Mervyn", "O'Luing", email = "mervyn.oluing@cso.ie", role = "aut"))
+    person("Mervyn", "O'Luing", email = "mervyn.oluing@cso.ie", role = "aut"),
+    person("James", "O'Rourke", email = "james.orourke@cso.ie", role = "aut"))
 Maintainer: Conor Crowley <conor.crowley@cso.ie>
 Description: Imports 'PxStat' data in JSON-stat format and (optionally) reshapes it into wide
 	format. The Central Statistics Office (CSO) is the national statistical institute of Ireland
@@ -18,16 +19,17 @@ Description: Imports 'PxStat' data in JSON-stat format and (optionally) reshapes
 	access to 'PxStat' data in JSON-stat format at <http://data.cso.ie>.
 	This dissemination tool allows developers machine to machine access to CSO 'PxStat' data.
 Imports: dplyr, httr, jsonlite, reshape2, rjstat, R.cache, sf, lubridate
-License: GPL-3
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.1
-Suggests: knitr, rmarkdown, tmap, viridisLite
+Suggests: knitr, rmarkdown, leaflet, viridisLite
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2020-03-11 12:07:49 UTC; horgane
 Author: Eoin Horgan [aut] (<https://orcid.org/0000-0002-3446-6154>),
   Conor Crowley [aut, cre],
   Vytas Vaiciulis [aut],
-  Mervyn O'Luing [aut]
+  Mervyn O'Luing [aut],
+  James O'Rourke [aut]
 Repository: CRAN
 Date/Publication: 2020-03-12 13:30:02 UTC

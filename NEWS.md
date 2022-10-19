@@ -1,112 +1,121 @@
-csodata
-================
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# csodata
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2021-07-05 
+    #> Last Update: 2022-10-18
 
 # Planned Updates
 
-  - Continue to implement PxStat features
+-   Continue to implement PxStat features
 
 # Version History
+
+## v1.2.2
+
+-   Minor bugfix in cso_geo_meta and quick_start_guide.
+-   Updated to newest Local Authority boundaries in cso_get_geo
+-   cso_get_meta now includes indicator if the dataset contains a
+    geographical element
+
 ## v1.2.1
 
-  - Minor bugfix in cso\get\_geo.
-  
-  
+-   Minor bugfix in cso_get_geo.
+
 ## v1.2.1
 
-  - Minor bugfix in cso\_download\_tbl.
+-   Minor bugfix in cso_download_tbl.
 
 ## v1.2.0
 
-  - Implementing the active managment of saved tables in the cache.
+-   Implementing the active managment of saved tables in the cache.
 
 ## v1.1.0
 
-  - Now using PxStat API as the data resource.
+-   Now using PxStat API as the data resource.
 
 ## v1.0.2
 
-  - Fixed a bug in cso\_get\_geo.
+-   Fixed a bug in cso_get_geo.
 
 ## v1.0.1
 
-  - Added graceful failure when internet resources not available, in
+-   Added graceful failure when internet resources not available, in
     accordance with CRAN policies.
 
 ## v1.0.0
 
-  - Major increment to version number to reflect release on CRAN.
-  - Changed maintainer to Conor Crowley.
-  - Added suppress\_messages option to cso\_get\_toc and
-    cso\_download\_tbl.
-  - Caching of data now uses the LastModified field from the table of
+-   Major increment to version number to reflect release on CRAN.
+-   Changed maintainer to Conor Crowley.
+-   Added suppress_messages option to cso_get_toc and cso_download_tbl.
+-   Caching of data now uses the LastModified field from the table of
     contents as part of the key so that a new version is only retrieved
     when the table is updated. Due to this all users should clear the
-    cache with cso\_clear\_cache() or otherwise.
-  - Added two new options to cso\_get\_geo for updated NUTS shapefiles
+    cache with cso_clear_cache() or otherwise.
+-   Added two new options to cso_get_geo for updated NUTS shapefiles
     from the OSi website.
-  - Changed projection of new map files to Irish Grid system.
+-   Changed projection of new map files to Irish Grid system.
 
 ## v0.1.5
 
 2019-12-13
 
-  - Minor edits to meet CRAN requirements.
+-   Minor edits to meet CRAN requirements.
 
 ## v0.1.4
 
 2019-12-04
 
-  - Changed naming scheme from xx\_cso\_yy to cso\_xx\_yy.
-  - Added cso\_disp\_meta function.
-  - Added caching funtionality using R.cache package.
-  - General improvements to documentation.
-  - Implemented cso\_get\_geo function, to download geographic data from
+-   Changed naming scheme from xx_cso_yy to cso_xx_yy.
+-   Added cso_disp_meta function.
+-   Added caching funtionality using R.cache package.
+-   General improvements to documentation.
+-   Implemented cso_get_geo function, to download geographic data from
     cso.ie.
-  - Separated cso\_get\_content into its own function, from
-    cso\_get\_meta.
-  - New metadata functions, cso\_get\_vars, cso\_get\_interval and
-    cso\_get\_content.
-  - Cache is now stored in a csodata subdirectory, and clear\_cso\_cache
+-   Separated cso_get_content into its own function, from cso_get_meta.
+-   New metadata functions, cso_get_vars, cso_get_interval and
+    cso_get_content.
+-   Cache is now stored in a csodata subdirectory, and clear_cso_cache
     can be used to empty it.
-  - Added Mervyn and Conor to authors field on DESCRIPTION.
-  - Changed double backslashes (\\\\) to single forward slashes (/).
-  - Moved cso\_get\_toc to its own file.
-  - cso\_search\_toc function added.
-  - Added cso\_get\_var\_values function.
-  - New geographic metadata functions, cso\_get\_meta\_geo and
-    cso\_disp\_meta\_geo.
-  - Changed LastModified column of cso\_get\_toc from character format
-    to datetime (POSIXct).
-  - New vignette, quick\_start\_guide.
+-   Added Mervyn and Conor to authors field on DESCRIPTION.
+-   Changed double backslashes (\\\\) to single forward slashes (/).
+-   Moved cso_get_toc to its own file.
+-   cso_search_toc function added.
+-   Added cso_get_var_values function.
+-   New geographic metadata functions, cso_get_meta_geo and
+    cso_disp_meta_geo.
+-   Changed LastModified column of cso_get_toc from character format to
+    datetime (POSIXct).
+-   New vignette, quick_start_guide.
 
 ## v0.1.3
 
 2019-11-11
 
-  - Added get\_cso\_meta function.
+-   Added get_cso_meta function.
 
 ## v0.1.2
 
 2019-11-08
 
-  - Add NEWS.Rmd and README.Rmd.
-  - New id\_list argument for get\_cso\_data.
-  - Changed get\_cso\_names to include last modified date and table
-    name.
-  - Added “very\_wide” option for wide\_format in get\_cso\_data.
+-   Add NEWS.Rmd and README.Rmd.
+-   New id_list argument for get_cso_data.
+-   Changed get_cso_names to include last modified date and table name.
+-   Added "very_wide" option for wide_format in get_cso_data.
 
 ## v0.1.1
 
 2019-11-05
 
-  - Added roxygen2 documentation.
+-   Added roxygen2 documentation.
 
 ## v0.1.0
 
 2019-11-04
 
-  - Initial version based on previous R scipt.
+-   Initial version based on previous R scipt.

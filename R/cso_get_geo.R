@@ -20,6 +20,7 @@
 #' @param map_data string. Indicates which shapefile to download. Options are:
 #' \itemize{
 #'   \item "Local Authorities", "County Councils", "la" OR "cc"
+#'   \item "Local Authorities 2016", "County Councils 2016", "la2016" OR "cc2016"
 #'   \item "Constituencies" OR "Constituencies (2017)"  OR "con"
 #'   \item "Constituencies_2013" OR "Constituencies (2013)"
 #'   \item "Electoral Divisions" OR "elec_div" OR "ed"
@@ -30,7 +31,8 @@
 #'   \item "NUTS3" OR "nuts3"
 #'   \item "Provinces" OR "p"
 #'   \item "Settlements" OR "s"
-#'   \item"Small Areas" OR "sa"
+#'   \item "Small Areas" OR "sa"
+#'   
 #' }
 #' Until v0.1.5 "NUTS2" and "NUTS3" gave access to the 2011 dataset.
 #' @param cache logical. Indicates whether to cache the result using R.cache.
@@ -48,8 +50,8 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   
   # Set shapefile name ------------------
   fname <- dplyr::case_when(
-    map_data == "Local Authorities" || map_data == "County Councils" ||
-      map_data == "la"|| map_data == "cc" ~
+    map_data == "Local Authorities 2016" || map_data == "County Councils 2016" ||
+      map_data == "la2016"|| map_data == "cc2016" ~
       "Census2016_Local_Authorities",
     map_data == "Constituencies"|| map_data == "Constituencies (2017)" 
     || map_data == "con" ~
@@ -78,6 +80,9 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
       "Census2016_Settlements_generalised20m",
     map_data == "Small Areas" || map_data == "sa" ~
       "Census2016_Small_Areas_generalised20m",
+    map_data == "Local Authorities" || map_data == "County Councils" ||
+      map_data == "la"|| map_data == "cc" ~
+      "2019_Local_Authorities",
     TRUE ~ NA_character_
   )
   url <- dplyr::case_when(
@@ -105,6 +110,8 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
       "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/1781a48b462bacb8eb860c716e24f609",
     fname == "Census2016_Small_Areas_generalised20m" ~
       "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/a9c563c15cc611817af939f70d1d1f04",
+    fname == "2019_Local_Authorities" ~
+      "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/440c36d3b86e067e97ffb2fabf55900e",
     TRUE ~ NA_character_
   )  
   # Need to separate error check. Including it in case_when causes error ---
@@ -202,7 +209,7 @@ cso_get_geo_meta <- function(shp) {
   simp <- all(sf::st_is_simple(shp))
   empt <- any(sf::st_is_empty(shp))
   valid <- all(sf::st_is_valid(shp))
-  avg_area <- mean(sf::st_area(shp))
+  avg_area <- avg_area <- mean(sf::st_area(shp[sf::st_is_valid(shp),]))
 
   list(
     coordinate_reference_system = crs, polygons = poly, all_simple = simp,
@@ -273,3 +280,4 @@ cso_disp_geo_meta <- function(shp) {
     print(other)
   }
 }
+
