@@ -19,7 +19,7 @@ Description: Imports 'PxStat' data in JSON-stat format and (optionally) reshapes
 	access to 'PxStat' data in JSON-stat format at <http://data.cso.ie>.
 	This dissemination tool allows developers machine to machine access to CSO 'PxStat' data.
 Imports: dplyr, httr, jsonlite, reshape2, rjstat, R.cache, sf, lubridate
-License: GPL-3 + file LICENSE
+License: GPL-3 
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 Suggests: knitr, rmarkdown, leaflet, viridisLite

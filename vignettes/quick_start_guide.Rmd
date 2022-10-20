@@ -29,6 +29,7 @@ library(csodata)
 #### Table of Contents
 
 A list of all the table available on the cso StatBank can be downloaded with `cso_get_toc`. You can search throught the title field using `cso_search_toc`. (A "Loaded cached toc" or "Loaded cached data" message indicates that the data was retrieved from the cache, instead of being downloaded again.)
+
 ```{r}
 toc <- cso_get_toc()
 head(toc)
@@ -44,23 +45,24 @@ tbl1 <- cso_get_data("PEA19")
 
 Metadata can be also downloaded or displayed to console:
 
-```{r}
+```{r, eval =  !is.null(tbl1)}
 meta1 <- cso_get_meta("CDP06")
 cso_disp_meta("CDP06")
 ```
 
 #### Geographic Data
 
-Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This is a map of county councils and other local authorities in Ireland,
-there are many other maps available.
+Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This is a map of county councils and other local authorities in Ireland, there are many other maps available.
 
 ```{r}
 shp <- cso_get_geo("County Councils")
+
 ```
 
 This data can be plotted using the `leaflet` package. Here we plot the outline of each region.
 
 ```{r, fig.width = 5, fig.height=6, eval= !is.null(shp)}
+
 # install.packages("leaflet")
 library(leaflet)
 
@@ -68,7 +70,6 @@ library(leaflet)
 leaflet(shp) %>% 
   addTiles() %>% 
   addPolygons()
-
 
 ```
 
