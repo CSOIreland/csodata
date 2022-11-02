@@ -89,7 +89,7 @@
     names(tbl3)[3] <- "id"
     
     tbl3$LastModified <- as.POSIXct(tbl3$LastModified,
-                                    format = "%M", tz = "GMT")
+                                    format = "%Y-%m-%dT%H:%M:%SZ")
     
     if (get_frequency){
       tbl3 <- cbind(tbl3,

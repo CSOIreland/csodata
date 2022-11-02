@@ -152,7 +152,7 @@ cso_download_tbl <- function(table_code, cache = TRUE,
   
   # Attempt to retrieve cached data -----
   if (cache) {
-    toc <- cso_get_toc(suppress_messages = TRUE)
+    toc <- cso_get_toc(suppress_messages = TRUE, cache = FALSE)
     last_update <- toc[toc$id == table_code, 1]
     data <- R.cache::loadCache(list(table_code, last_update), dirs = "csodata")
     if (!is.null(data)) {
@@ -201,7 +201,6 @@ cso_download_tbl <- function(table_code, cache = TRUE,
            charToRaw("invalid Maintable format entered"))) {
     json_data <- rawToChar(response[["content"]])
     if (cache) {
-      toc <- cso_get_toc(suppress_messages = TRUE)
       last_update <- toc[toc$id == table_code, 1]
       R.cache::saveCache(json_data,
                          key = list(table_code, last_update), dirs = "csodata"
