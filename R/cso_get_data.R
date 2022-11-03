@@ -93,6 +93,12 @@ cso_get_data <- function(table_code, wide_format = "wide", include_ids = FALSE,
     }
   }
   
+  #Changing Month from String to Date format
+  if (wide_format == "Tall" & "Month" %in% names(data)){
+    data$Month <- lubridate::ym(data$Month)
+    
+  }
+  
   # Pivot to wide table -----------------
   if (wide_format == "wide" || wide_format == "very_wide") {
     string <- names(data)
