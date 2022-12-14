@@ -48,6 +48,7 @@
 
 cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   
+  
   # Set shapefile name ------------------
   fname <- dplyr::case_when(
     map_data == "Local Authorities 2016" || map_data == "County Councils 2016" ||
