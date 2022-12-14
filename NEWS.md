@@ -8,7 +8,7 @@ editor_options:
 
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
-    #> Last Update: 2022-10-18
+    #> Last Update: 2022-12-14
 
 # Planned Updates
 
@@ -16,7 +16,17 @@ editor_options:
 
 # Version History
 
-## v1.2.2
+## v1.4.0
+
+-   Switched from RESTful API to JSON RPC for sending requests to PxStat
+
+-   Added new tidy data format
+
+-   Deprecated the wide_format augment and replaced it with pivot_format
+
+-   Various bug fixes and quality of life additions
+
+## v1.3.0
 
 -   Minor bugfix in cso_geo_meta and quick_start_guide.
 -   Updated to newest Local Authority boundaries in cso_get_geo
