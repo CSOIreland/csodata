@@ -6,10 +6,12 @@
 \usage{
 cso_get_data(
   table_code,
-  wide_format = "wide",
+  pivot_format = "wide",
+  wide_format = lifecycle::deprecated(),
   include_ids = FALSE,
   id_list = NULL,
   use_factors = TRUE,
+  use_dates = FALSE,
   cache = TRUE,
   flush_cache = TRUE
 )
@@ -20,11 +22,13 @@ file, e.g. "QNQ22.json", it is imported from that file. Otherwise if it is
 only a table code e.g. "QNQ22", the file is downloaded from data.cso and
 checked to see if it is a valid table.}
 
-\item{wide_format}{string, one of "wide", "very_wide" or "tall". If "wide"
+\item{pivot_format}{string, one of "wide", "very_wide", "tall" or "tidy. If "wide"
 (default) the table is returned in wide (human readable) format, with
 statistic as a column (if it exists). If "very_wide" the table is returned
 wide format and spreads the statistic column to rows. If "tall" the table is
-returned in tall (statistic and value) format.}
+returned in tall (statistic and value) format.If "tidy" will be returned in a tidy-like format.}
+
+\item{wide_format}{string. Deprecated argument as of 1.4.0. Please use pivot_format instead.}
 
 \item{include_ids}{logical. The JSON-stat format stores variables as ids
 i.e. IE11 and labels i.e. Border. While the label is generally preferred,
@@ -40,6 +44,9 @@ if NULL then every column that is not included in the vector
 \item{use_factors}{logical. If TRUE (default) factors will be used in
 strings.}
 
+\item{use_dates}{logical. If True dates will be returned as date-time competent.
+Default is FALSE.}
+
 \item{cache}{logical. if TRUE (default) csodata will cache the result using
 R.cache. The raw data downloaded from the data.csi.ie is cached, which means
 that calling \code{cso_get_data} with the same table_code but different
@@ -47,10 +54,7 @@ parameterswill result in cached data being used.}
 
 \item{flush_cache}{logical. If TRUE (default) the cache will be checked for 
 old, unused files. Any files which have not been accessed in the last month
- will be deleted}
-}
-\value{
-data frame of the requested CSO table.
+ will be deleted.}
 }
 \description{
 Returns a CSO table from the CSO PxStat Application Programming Interface
@@ -59,7 +63,7 @@ very wide or long format.
 }
 \details{
 The data is pulled from the ResponseInstance service on the CSO API in
-JSON-Stat fromat, using the GET method from the httr package.
+JSON-Stat format, using the GET method from the httr package.
 }
 \examples{
 \dontrun{
