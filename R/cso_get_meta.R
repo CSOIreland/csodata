@@ -71,7 +71,7 @@ cso_get_meta <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' Returns a character vector listing the contents of a CSO data table
 #'
 #' Reads the metadata of a table to return a character vector of the
-#' included variables in the table.
+#' included variables and statistics in the table.
 #'
 #' @param table_code string. A valid code for a table on data.cso.ie .
 #' @param cache logical. Whether to use cached data, if available.

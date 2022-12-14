@@ -5,7 +5,7 @@
 #' very wide or long format.
 #'
 #' The data is pulled from the ResponseInstance service on the CSO API in
-#' JSON-Stat fromat, using the GET method from the httr package.
+#' JSON-Stat format, using the GET method from the httr package.
 #'
 #' @param table_code string. If the table_code is a filename or a path to a
 #' file, e.g. "QNQ22.json", it is imported from that file. Otherwise if it is
@@ -16,7 +16,6 @@
 #' statistic as a column (if it exists). If "very_wide" the table is returned
 #' wide format and spreads the statistic column to rows. If "tall" the table is
 #' returned in tall (statistic and value) format.If "tidy" will be returned in a tidy-like format.
-#' @param include_ids logical. The JSON-stat format stores variables as ids
 #' @param include_ids logical. The JSON-stat format stores variables as ids
 #' i.e. IE11 and labels i.e. Border. While the label is generally preferred,
 #' sometimes it is useful to have the ids to match on. If \code{include_ids}
