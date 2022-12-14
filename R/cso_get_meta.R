@@ -28,6 +28,10 @@
 #' meta1 <- cso_get_meta("HS014", cache = FALSE)
 #' 
 cso_get_meta <- function(table_code, cache = TRUE, flush_cache = TRUE) {
+  
+  #Accounting for table_code in lowercase
+  table_code <- toupper(table_code)
+  
   # Use fromJSON in order to preserve metadata ---
   tbl <- cso_download_tbl(table_code, cache, flush_cache)
   # Error Checking ----------------------
@@ -67,7 +71,7 @@ cso_get_meta <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' Returns a character vector listing the contents of a CSO data table
 #'
 #' Reads the metadata of a table to return a character vector of the
-#' included variables in the table.
+#' included variables and statistics in the table.
 #'
 #' @param table_code string. A valid code for a table on data.cso.ie .
 #' @param cache logical. Whether to use cached data, if available.
@@ -85,12 +89,17 @@ cso_get_meta <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' }
 cso_get_vars <- function(table_code, cache = TRUE, flush_cache = TRUE) {
   tbl <- cso_download_tbl(table_code, cache, flush_cache)
+  
+  #Accounting for table_code in lowercase
+  table_code <- toupper(table_code)
+  
   # Error Checking ----------------------
   if (is.null(tbl)) {
     return(NULL)
   }
   
-  setdiff(names(rjstat::fromJSONstat(tbl,naming = "label", use_factors = TRUE)), c("Statistic","value"))
+  append(setdiff(names(rjstat::fromJSONstat(tbl,naming = "label", use_factors = TRUE)), c("Statistic","value")) 
+  ,as.character(jsonlite::fromJSON(tbl)$dimension$STATISTIC$category$label))
 }
 
 
@@ -114,7 +123,10 @@ cso_get_vars <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' }
 #' 
 cso_get_var_values <- function(table_code, cache = TRUE, flush_cache = TRUE) {
-  tbl <- cso_download_tbl(table_code, cache, flush_cache)
+  
+  
+  tbl <- cso_download_tbl(toupper(table_code), cache, flush_cache)
+  
   # Error Checking ----------------------
   if (is.null(tbl)) {
     return(NULL)
@@ -157,7 +169,7 @@ cso_get_var_values <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' interval <- cso_get_interval("C0636")
 #' }
 cso_get_interval <- function(table_code, cache = TRUE, flush_cache = TRUE) {
-  tbl <- cso_download_tbl(table_code, cache, flush_cache)
+  tbl <- cso_download_tbl(toupper(table_code), cache, flush_cache)
   # Error Checking ----------------------
   if (is.null(tbl)) {
     return(NULL)
@@ -191,7 +203,7 @@ cso_get_interval <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' }
 cso_get_content <- function(table_code, cache = TRUE, flush_cache = TRUE) {
   # Pull the list from API and keep only useful column -----
-  tbl <- cso_download_tbl(table_code, cache, flush_cache)
+  tbl <- cso_download_tbl(toupper(table_code), cache, flush_cache)
   # Error Checking ----------------------
   if (is.null(tbl)) {
     return(NULL)
@@ -216,7 +228,8 @@ cso_get_content <- function(table_code, cache = TRUE, flush_cache = TRUE) {
 #' cso_disp_meta("EP001")
 #' }
 cso_disp_meta <- function(table_code) {
-  meta <- cso_get_meta(table_code, flush_cache = FALSE)
+  
+  meta <- cso_get_meta(toupper(table_code), flush_cache = FALSE)
   
   # Error Checking ----------------------
   if (is.null(meta)) {

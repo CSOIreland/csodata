@@ -23,7 +23,7 @@ table.
 }
 \description{
 Reads the metadata of a table to return a character vector of the
-included variables in the table.
+included variables and statistics in the table.
 }
 \examples{
 \dontrun{

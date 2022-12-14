@@ -10,7 +10,8 @@ cso_get_toc(
   suppress_messages = FALSE,
   get_frequency = FALSE,
   list_vars = FALSE,
-  flush_cache = TRUE
+  flush_cache = TRUE,
+  from_date = lubridate::date(lubridate::today() - lubridate::years(2))
 )
 }
 \arguments{
@@ -22,14 +23,16 @@ when loading a previously cached table of contents.}
 
 \item{get_frequency}{logical. If TRUE the frequency of each 
 table(yearly, monthly etc...) will be returned as an additional column in 
-the table of contents}
+the table of contents.}
 
 \item{list_vars}{logical. If TRUE an additional column will be added
 to the table of contents which lists each tables variables.}
 
 \item{flush_cache}{logical. If TRUE (default) the cache will be checked for 
 old, unused files. Any files which have not been accessed in the last month 
-will be deleted}
+will be deleted.}
+
+\item{from_date}{date in the format YYYY-MM-DD or Null. Will only return tables last modified after date provided. Default is 2 years from current date.}
 }
 \value{
 data frame of three character columns:

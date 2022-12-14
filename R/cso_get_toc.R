@@ -15,12 +15,13 @@
 #' when loading a previously cached table of contents.
 #' @param get_frequency logical. If TRUE the frequency of each 
 #' table(yearly, monthly etc...) will be returned as an additional column in 
-#' the table of contents
+#' the table of contents.
 #' @param list_vars logical. If TRUE an additional column will be added
 #' to the table of contents which lists each tables variables.
 #' @param flush_cache logical. If TRUE (default) the cache will be checked for 
 #' old, unused files. Any files which have not been accessed in the last month 
-#' will be deleted
+#' will be deleted.
+#' @param from_date date in the format YYYY-MM-DD or Null. Will only return tables last modified after date provided. Default is 2 years from current date.
 #' @return data frame of three character columns:
 #' \itemize{
 #'   \item id. Contains all of the table codes currently
@@ -35,11 +36,16 @@
 #' \dontrun{
 #' head(cso_get_toc())
 #' }
-  cso_get_toc <- function(cache = TRUE, suppress_messages = FALSE, get_frequency = FALSE, list_vars = FALSE, flush_cache = TRUE) {
+  cso_get_toc <- function(cache = TRUE, suppress_messages = FALSE, get_frequency = FALSE, list_vars = FALSE, flush_cache = TRUE,
+                          from_date = lubridate::date(lubridate::today() - lubridate::years(2))){
+    
+    #changing Null to string of null
+    if (is.null(from_date)){
+      from_date <- "null"
+    }
     url <- paste0(
       
-      "https://ws.cso.ie/public/api.restful/PxStat.Data.Cube_API.ReadCollection"
-      
+      "https://ws.cso.ie/public/api.jsonrpc?data=%7B%0A%09%22jsonrpc%22:%20%222.0%22,%0A%09%22method%22:%20%22PxStat.Data.Cube_API.ReadCollection%22,%0A%09%22params%22:%20%7B%0A%09%09%22language%22:%20%22en%22,%0A%09%09%22datefrom%22:%20%22",from_date,"%22%0A%09%7D%0A%7D"
     )
     
     # cache
@@ -69,7 +75,7 @@
                             "check internet connection and that data.cso.ie is online")
     
     tbl <- tryCatch({
-      data.frame(jsonlite::fromJSON(url))
+      data.frame(jsonlite::fromJSON(url)$result)
       
     }, warning = function(w) {
       print(paste0("Warning: ", error_message))
@@ -89,7 +95,7 @@
     names(tbl3)[3] <- "id"
     
     tbl3$LastModified <- as.POSIXct(tbl3$LastModified,
-                                    format = "%M", tz = "GMT")
+                                    format = "%Y-%m-%dT%H:%M:%SZ")
     
     if (get_frequency){
       tbl3 <- cbind(tbl3,
