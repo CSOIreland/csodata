@@ -6,7 +6,7 @@
 \usage{
 cso_search_toc(
   string,
-  toc = cso_get_toc(suppress_messages = TRUE, flush_cache = FALSE)
+  toc = cso_get_toc(suppress_messages = TRUE, flush_cache = FALSE, from_date = NULL)
 )
 }
 \arguments{
