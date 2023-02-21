@@ -1,8 +1,8 @@
 Package: csodata
 Type: Package
 Title: Download Data from the CSO 'PxStat' API
-Version: 1.4.0
-Date: 2022-12-14
+Version: 1.4.1
+Date: 2023-02-21
 Authors@R: c(
     person("Eoin", "Horgan", email = "eoin.horgan@cso.ie", role = "aut", comment = c(ORCID = "0000-0002-3446-6154")),
 	person("Conor", "Crowley", email = "conor.crowley@cso.ie", role = c("aut", "cre")),
