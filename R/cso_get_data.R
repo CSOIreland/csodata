@@ -197,7 +197,7 @@ cso_download_tbl <- function(table_code, cache = TRUE,
   
   # Attempt to retrieve cached data -----
   if (cache) {
-    toc <- cso_get_toc(suppress_messages = TRUE, cache = FALSE)
+    toc <- cso_get_toc(suppress_messages = TRUE, cache = FALSE, from_date = NULL,flush_cache = FALSE)
     last_update <- toc[toc$id == table_code, 1]
     data <- R.cache::loadCache(list(table_code, last_update), dirs = "csodata")
     if (!is.null(data)) {
@@ -209,14 +209,15 @@ cso_download_tbl <- function(table_code, cache = TRUE,
   }
   
   #Empty out the cache of unused files if a new file is being downloaded
-  if(flush_cache){
+  #checks if csodata directory in cache before attempting to flush it
+  if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
     file.remove(
       rownames(
-        fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
-          fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[,"mtime"],
+        fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
+          fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[,"mtime"],
           lubridate::interval(start = Sys.Date() - lubridate::days(2) , end = Sys.Date() + lubridate::days(1))) , ]
       )
-    )
+      )
   } 
   
   

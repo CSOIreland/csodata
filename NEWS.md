@@ -16,6 +16,14 @@ editor_options:
 
 # Version History
 
+## v1.4.1
+
+-   Fixed issue where passing from_date = NULL would cause an error in
+    cso_get_toc.
+
+-   Added check for csodata directory in cache before attempting to
+    flush it.
+
 ## v1.4.0
 
 -   Switched from RESTful API to JSON RPC for sending requests to PxStat

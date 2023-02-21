@@ -39,9 +39,9 @@
   cso_get_toc <- function(cache = TRUE, suppress_messages = FALSE, get_frequency = FALSE, list_vars = FALSE, flush_cache = TRUE,
                           from_date = lubridate::date(lubridate::today() - lubridate::years(2))){
     
-    #changing Null to string of null
+    #changing Null to a very early date
     if (is.null(from_date)){
-      from_date <- "null"
+      from_date <- "1970-01-01"
     }
     url <- paste0(
       
@@ -59,14 +59,15 @@
       } }
     
     #Empty out the cache of unused files if a new file is being downloaded
-    if(flush_cache){
+    #checks if csodata directory in cache before attempting to flush it
+    if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
       file.remove(
         rownames(
-          fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
-            fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[,"mtime"],
+          fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
+            fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[,"mtime"],
             lubridate::interval(start = Sys.Date() - lubridate::days(2) , end = Sys.Date() + lubridate::days(1) )) , ]
         ) #lubridate::`%m+%`(Sys.Date(),months(-1)) 
-      )
+        )
     }
     
     # Check for errors using trycatch since PxStat API does not support
@@ -169,7 +170,7 @@
 #' \dontrun{
 #' trv <- cso_search_toc("travel")
 #' }
-cso_search_toc <- function(string, toc = cso_get_toc(suppress_messages = TRUE, flush_cache = FALSE)) {
+cso_search_toc <- function(string, toc = cso_get_toc(suppress_messages = TRUE, flush_cache = FALSE, from_date = NULL)) {
   # Error Checking ----------------------
   if (is.null(toc)) {
     return(NULL)

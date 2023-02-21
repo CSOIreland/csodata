@@ -131,7 +131,7 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   }
   
   #Empty out the cache of unused files if a new file is being downloaded
-  if(flush_cache){
+  if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
     file.remove(
       rownames(
         fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
