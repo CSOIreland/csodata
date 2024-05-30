@@ -4,13 +4,13 @@
 \alias{cso_get_content}
 \title{Returns a character vector listing the statistics in a CSO data table}
 \usage{
-cso_get_content(table_code, cache = TRUE, flush_cache = TRUE)
+cso_get_content(table_code, cache = FALSE, flush_cache = TRUE)
 }
 \arguments{
 \item{table_code}{string. A valid code for a table on data.cso.ie .}
 
 \item{cache}{logical. Whether to use cached data, if available.
-Default value is TRUE.}
+Default value is FALSE.}
 
 \item{flush_cache}{logical. If TRUE (default) the cache will be checked for old, unused
 files. Any files which have not been accessed in the last month will be deleted}

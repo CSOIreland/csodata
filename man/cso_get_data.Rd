@@ -12,7 +12,7 @@ cso_get_data(
   id_list = NULL,
   use_factors = TRUE,
   use_dates = FALSE,
-  cache = TRUE,
+  cache = FALSE,
   flush_cache = TRUE
 )
 }
@@ -47,10 +47,10 @@ strings.}
 \item{use_dates}{logical. If True dates will be returned as date-time competent.
 Default is FALSE.}
 
-\item{cache}{logical. if TRUE (default) csodata will cache the result using
-R.cache. The raw data downloaded from the data.csi.ie is cached, which means
+\item{cache}{logical. if TRUE csodata will cache the result using
+R.cache. The raw data downloaded from the data.cso.ie is cached, which means
 that calling \code{cso_get_data} with the same table_code but different
-parameterswill result in cached data being used.}
+parameters will result in cached data being used.}
 
 \item{flush_cache}{logical. If TRUE (default) the cache will be checked for 
 old, unused files. Any files which have not been accessed in the last month

@@ -115,6 +115,10 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
       "https://ws.cso.ie/public/api.static/PxStat.Data.GeoMap_API.Read/440c36d3b86e067e97ffb2fabf55900e",
     TRUE ~ NA_character_
   )  
+  
+  if (fname == "2019_Local_Authorities"){
+    warning("There is an issue with the county cork geometry. This is being investigated.")
+  }
   # Need to separate error check. Including it in case_when causes error ---
   if (is.na(fname)) {
     stop("Not one of the available map files.")
@@ -131,11 +135,11 @@ cso_get_geo <- function(map_data, cache = TRUE, flush_cache = TRUE) {
   }
   
   #Empty out the cache of unused files if a new file is being downloaded
-  if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
+  if(flush_cache & dir.exists(file.path(R.cache::getCacheRootPath(),"csodata"))){
     file.remove(
       rownames(
-        fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
-          fileSnapshot(paste0(R.cache::getCacheRootPath(),"/csodata"), full.names = T, recursive = T)$info[,"mtime"],
+        fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
+          fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[,"mtime"],
           lubridate::interval(start = Sys.Date()- lubridate::days(2) , end = Sys.Date() + lubridate::days(1))) , ]
       )
     )

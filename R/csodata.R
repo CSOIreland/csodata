@@ -30,6 +30,7 @@
 #'
 #' @docType package
 #' @name csodata
+"_PACKAGE"
 NULL
 
 
@@ -49,7 +50,7 @@ NULL
 #' }
 cso_clear_cache <- function() {
   R.cache::clearCache(dirs = "csodata", recursive = TRUE, prompt = FALSE)
-  unlink(paste0(R.cache::getCacheRootPath(),"/csodata"), recursive = TRUE, force = TRUE)
+  unlink(file.path(R.cache::getCacheRootPath(),"csodata"), recursive = TRUE, force = TRUE)
 }
 
 

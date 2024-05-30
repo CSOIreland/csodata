@@ -6,16 +6,16 @@
 by id number, e.g. A0101, A0102, A0103, etc.}
 \usage{
 cso_get_toc(
-  cache = TRUE,
+  cache = FALSE,
   suppress_messages = FALSE,
   get_frequency = FALSE,
   list_vars = FALSE,
   flush_cache = TRUE,
-  from_date = lubridate::date(lubridate::today() - lubridate::years(2))
+  from_date = "YYYY-MM-DD"
 )
 }
 \arguments{
-\item{cache}{logical. If TRUE (default) the table of contents is cached
+\item{cache}{logical. If TRUE the table of contents is cached
 with the system date as a key.}
 
 \item{suppress_messages}{logical. If FALSE (default) a message is printed

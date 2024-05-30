@@ -9,7 +9,7 @@
 #' \url{https://github.com/CSOIreland/PxStat/wiki/API-Cube-RESTful}
 #' for more information on this.
 #'
-#' @param cache logical. If TRUE (default) the table of contents is cached
+#' @param cache logical. If TRUE the table of contents is cached
 #' with the system date as a key.
 #' @param suppress_messages logical. If FALSE (default) a message is printed
 #' when loading a previously cached table of contents.
@@ -36,13 +36,18 @@
 #' \dontrun{
 #' head(cso_get_toc())
 #' }
-  cso_get_toc <- function(cache = TRUE, suppress_messages = FALSE, get_frequency = FALSE, list_vars = FALSE, flush_cache = TRUE,
-                          from_date = lubridate::date(lubridate::today() - lubridate::years(2))){
+  cso_get_toc <- function(cache = FALSE, suppress_messages = FALSE, get_frequency = FALSE, list_vars = FALSE, flush_cache = TRUE,
+                          from_date =  "YYYY-MM-DD"){
     
     #changing Null to a very early date
     if (is.null(from_date)){
       from_date <- "1970-01-01"
     }
+    
+    if (from_date == "YYYY-MM-DD"){
+      from_date <- lubridate::date(lubridate::today() - lubridate::years(2))
+    }
+    
     url <- paste0(
       
       "https://ws.cso.ie/public/api.jsonrpc?data=%7B%0A%09%22jsonrpc%22:%20%222.0%22,%0A%09%22method%22:%20%22PxStat.Data.Cube_API.ReadCollection%22,%0A%09%22params%22:%20%7B%0A%09%09%22language%22:%20%22en%22,%0A%09%09%22datefrom%22:%20%22",from_date,"%22%0A%09%7D%0A%7D"
@@ -60,11 +65,11 @@
     
     #Empty out the cache of unused files if a new file is being downloaded
     #checks if csodata directory in cache before attempting to flush it
-    if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
+    if(flush_cache & dir.exists(file.path(R.cache::getCacheRootPath(),"csodata"))){
       file.remove(
         rownames(
-          fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
-            fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[,"mtime"],
+          fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
+            fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[,"mtime"],
             lubridate::interval(start = Sys.Date() - lubridate::days(2) , end = Sys.Date() + lubridate::days(1) )) , ]
         ) #lubridate::`%m+%`(Sys.Date(),months(-1)) 
         )
@@ -96,7 +101,7 @@
     names(tbl3)[3] <- "id"
     
     tbl3$LastModified <- as.POSIXct(tbl3$LastModified,
-                                    format = "%Y-%m-%dT%H:%M:%SZ")
+                                    format = "%Y-%m-%dT%H:%M:%S")
     
     if (get_frequency){
       tbl3 <- cbind(tbl3,

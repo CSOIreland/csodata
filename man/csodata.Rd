@@ -3,6 +3,7 @@
 \docType{package}
 \name{csodata}
 \alias{csodata}
+\alias{csodata-package}
 \title{csodata: A package for downloading CSO data.}
 \description{
 The csodata package allows for easily downloading CSO (Central Statistics
@@ -33,4 +34,23 @@ imported as an sf data frame using the \code{\link{cso_get_geo}} function.
 Metadata about the map data can be retrieved with
 \code{\link{cso_get_geo_meta}}, and displayed on the console with
 \code{\link{cso_disp_geo_meta}}.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/CSOIreland/csodata}
+}
+
+}
+\author{
+\strong{Maintainer}: Conor Crowley \email{conor.crowley@cso.ie}
+
+Authors:
+\itemize{
+  \item Eoin Horgan \email{eoin.horgan@cso.ie} (\href{https://orcid.org/0000-0002-3446-6154}{ORCID})
+  \item Vytas Vaiciulis \email{Vytas.Vaiciulis@cso.ie}
+  \item Mervyn O'Luing \email{mervyn.oluing@cso.ie}
+  \item James O'Rourke \email{james.orourke@cso.ie}
+}
+
 }

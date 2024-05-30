@@ -29,10 +29,10 @@
 #' strings.
 #' @param use_dates logical. If True dates will be returned as date-time competent.
 #' Default is FALSE.
-#' @param cache logical. if TRUE (default) csodata will cache the result using
-#' R.cache. The raw data downloaded from the data.csi.ie is cached, which means
+#' @param cache logical. if TRUE csodata will cache the result using
+#' R.cache. The raw data downloaded from the data.cso.ie is cached, which means
 #' that calling \code{cso_get_data} with the same table_code but different
-#' parameterswill result in cached data being used.
+#' parameters will result in cached data being used.
 #' @param flush_cache logical. If TRUE (default) the cache will be checked for 
 #' old, unused files. Any files which have not been accessed in the last month
 #'  will be deleted.
@@ -43,8 +43,8 @@
 #' tbl1 <- cso_get_data("QNQ22")
 #' tbl2 <- cso_get_data("QLF07.json")
 #' }
-cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecycle::deprecated(), include_ids = FALSE,
-                         id_list = NULL, use_factors = TRUE,use_dates = FALSE, cache = TRUE, flush_cache = TRUE) {
+cso_get_data <- function(table_code, pivot_format = "wide", wide_format = lifecycle::deprecated(), include_ids = FALSE,
+                         id_list = NULL, use_factors = TRUE,use_dates = FALSE, cache = FALSE, flush_cache = TRUE) {
   
   table_code <- toupper(table_code)
   
@@ -78,6 +78,7 @@ cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecyc
     }
   }
   
+    
   # Load data ---------------------------
   data <- rjstat::fromJSONstat(json_data,
                                naming = "label", use_factors = use_factors
@@ -87,9 +88,10 @@ cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecyc
   
   # Append ids as new column ------------
   if (include_ids) {
-    data_id <- rjstat::fromJSONstat(parse(json_data)$result,
+    data_id <- rjstat::fromJSONstat(json_data,
                                     naming = "id", use_factors = use_factors
     )
+    
     names(data_id)[substr(names(data_id),0,1) == "C"] <-paste0(names(data)[substr(names(data_id),0,1) == "C"],".id")
     
     #Composing the list of id columns to be appended
@@ -122,7 +124,6 @@ cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecyc
     }
   }
   
-  
   #Pivot to Tidy Data
   if (pivot_format == "tidy"){
     
@@ -134,7 +135,7 @@ cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecyc
       data <- dplyr::rename(data, Value = value)
     }
     
-    data <- tidyr::pivot_wider(data, names_from = Statistic ,values_from = value)
+    data <- tidyr::pivot_wider(data, names_from = Statistic ,values_from = Value)
     
   }
   
@@ -188,7 +189,7 @@ cso_get_data <- function(table_code,pivot_format = "wide", wide_format = lifecyc
 #' @importFrom utils fileSnapshot
 
 
-cso_download_tbl <- function(table_code, cache = TRUE,
+cso_download_tbl <- function(table_code, cache = FALSE,
                              suppress_messages = FALSE, flush_cache = TRUE) {
   table_code <- toupper(table_code)
   url <- paste0("https://ws.cso.ie/public/api.jsonrpc?data=%7B%22jsonrpc%22:%222.0%22,%22method%22:%22PxStat.Data.Cube_API.ReadDataset%22,%22params%22:%7B%22class%22:%22query%22,%22id%22:%5B%5D,%22dimension%22:%7B%7D,%22extension%22:%7B%22pivot%22:null,%22codes%22:false,%22language%22:%7B%22code%22:%22en%22%7D,%22format%22:%7B%22type%22:%22JSON-stat%22,%22version%22:%222.0%22%7D,%22matrix%22:%22",
@@ -210,11 +211,11 @@ cso_download_tbl <- function(table_code, cache = TRUE,
   
   #Empty out the cache of unused files if a new file is being downloaded
   #checks if csodata directory in cache before attempting to flush it
-  if(flush_cache & dir.exists(paste0(R.cache::getCacheRootPath(),"\\csodata"))){
+  if(flush_cache & dir.exists(file.path(R.cache::getCacheRootPath(),"csodata"))){
     file.remove(
       rownames(
-        fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
-          fileSnapshot(paste0(R.cache::getCacheRootPath(),"\\csodata"), full.names = T, recursive = T)$info[,"mtime"],
+        fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[!lubridate::`%within%`(
+          fileSnapshot(file.path(R.cache::getCacheRootPath(),"csodata"), full.names = T, recursive = T)$info[,"mtime"],
           lubridate::interval(start = Sys.Date() - lubridate::days(2) , end = Sys.Date() + lubridate::days(1))) , ]
       )
       )
