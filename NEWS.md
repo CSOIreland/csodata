@@ -16,6 +16,24 @@ editor_options:
 
 # Version History
 
+## v1.5.0
+
+- Most functions now default to not using the cache.
+
+- Updated the package documentation with @docType as requested by CRAN last year
+
+- Fixed an issue with the cache on non-windows file systems
+
+- Fixed an issue with pivot_format = "tidy"
+
+- Fixed an issue with include_ids parameter
+
+- Fixed an issue with date-time format in cso_get_toc()
+
+## v1.4.2
+
+- Fixed an issue with pivot_format = "tidy"
+
 ## v1.4.1
 
 -   Fixed issue where passing from_date = NULL would cause an error in

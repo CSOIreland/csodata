@@ -1,8 +1,8 @@
 Package: csodata
 Type: Package
 Title: Download Data from the CSO 'PxStat' API
-Version: 1.4.1
-Date: 2023-02-21
+Version: 1.5.0
+Date: 2024-05-29
 Authors@R: c(
     person("Eoin", "Horgan", email = "eoin.horgan@cso.ie", role = "aut", comment = c(ORCID = "0000-0002-3446-6154")),
 	person("Conor", "Crowley", email = "conor.crowley@cso.ie", role = c("aut", "cre")),
@@ -19,7 +19,7 @@ Description: Imports 'PxStat' data in JSON-stat format and (optionally) reshapes
 	access to 'PxStat' data in JSON-stat format at <http://data.cso.ie>.
 	This dissemination tool allows developers machine to machine access to CSO 'PxStat' data.
 Imports: dplyr, httr, jsonlite, reshape2, rjstat, R.cache, sf, lubridate, tidyr, lifecycle
-License: GPL-3 
+License: GPL-3
 Encoding: UTF-8
 RoxygenNote: 7.2.3
 URL: https://github.com/CSOIreland/csodata
