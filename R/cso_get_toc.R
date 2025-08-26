@@ -87,11 +87,14 @@
       print(paste0("Warning: ", error_message))
       return(NULL)
     }, error = function(e) {
-      print(paste0("Error: ", error_message))
+      message(paste0("Connection Error: ", error_message))
       return(NULL)
     })
     
-    if(is.null(tbl)){return(NULL)}
+    if(is.null(tbl)|httr::GET(url)$status_code != 200){
+      message(paste0("Connection Error: ", error_message))
+        return(NULL)
+      }
     
     tbl2 <- cbind(tbl[c("link.item.updated","link.item.label")],data.frame(tbl$link.item.extension$matrix))
     tbl3 <- dplyr::mutate_if(tbl2, is.factor, as.character)

@@ -1,8 +1,8 @@
 Package: csodata
 Type: Package
 Title: Download Data from the CSO 'PxStat' API
-Version: 1.5.0
-Date: 2024-05-29
+Version: 1.5.1
+Date: 2025-08-21
 Authors@R: c(
     person("Eoin", "Horgan", email = "eoin.horgan@cso.ie", role = "aut", comment = c(ORCID = "0000-0002-3446-6154")),
 	person("Conor", "Crowley", email = "conor.crowley@cso.ie", role = c("aut", "cre")),
@@ -14,9 +14,9 @@ Description: Imports 'PxStat' data in JSON-stat format and (optionally) reshapes
 	format. The Central Statistics Office (CSO) is the national statistical institute of Ireland
 	and 'PxStat' is the CSOs online database of Official Statistics. This database contains current
 	and historical data series compiled from CSO statistical releases and is accessed at
-	<http://data.cso.ie>.
+	<https://data.cso.ie>.
 	The CSO 'PxStat' Application Programming Interface (API), which is accessed in this package, provides
-	access to 'PxStat' data in JSON-stat format at <http://data.cso.ie>.
+	access to 'PxStat' data in JSON-stat format at <https://data.cso.ie>.
 	This dissemination tool allows developers machine to machine access to CSO 'PxStat' data.
 Imports: dplyr, httr, jsonlite, reshape2, rjstat, R.cache, sf, lubridate, tidyr, lifecycle
 License: GPL-3

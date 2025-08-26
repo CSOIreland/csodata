@@ -239,8 +239,11 @@ cso_download_tbl <- function(table_code, cache = FALSE,
     return(NULL)
   })
   
-  #Cut off if theres issues                   
-  if(is.null(response)){return(NULL)}
+  #Cut off if there are issues                   
+  if(is.null(response)|httr::status_code(response) != 200){
+      message(paste0("Connection Error: ", error_message))
+      return(NULL)
+    }
   
   # Check if data valid -------------
   if (httr::status_code(response) == 200 &&

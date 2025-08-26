@@ -16,6 +16,10 @@ editor_options:
 
 # Version History
 
+## v1.5.1
+
+- Bug fixing some issues turned up by the Summer pxstat maintainance
+
 ## v1.5.0
 
 - Most functions now default to not using the cache.

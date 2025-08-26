@@ -28,7 +28,7 @@ library(csodata)
 
 #### Table of Contents
 
-A list of all the table available on the cso StatBank can be downloaded with `cso_get_toc`. You can search through the title field using `cso_search_toc`. (A "Loaded cached toc" or "Loaded cached data" message indicates that the data was retrieved from the cache, instead of being downloaded again.)
+A list of all the table available on the cso StatBank can be downloaded with `cso_get_toc`. You can search throught the title field using `cso_search_toc`. (A "Loaded cached toc" or "Loaded cached data" message indicates that the data was retrieved from the cache, instead of being downloaded again.)
 ```{r}
 toc <- cso_get_toc()
 head(toc)
@@ -36,7 +36,7 @@ head(toc)
 
 #### Downloading Data
 
-To download a dataset, use `cso_get_data` and include a table code from the table of contents.
+To download a dataset, use `cso_get_data`.
 
 ```{r}
 tbl1 <- cso_get_data("PEA19")
@@ -51,24 +51,22 @@ cso_disp_meta("CDP06")
 
 #### Geographic Data
 
-Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This is a map of county councils and other local authorities in Ireland,
-there are many other maps available.
+Geographic vector data in ESRI shapefile format can be downloaded for use in mapping. This uses a more recent map, including the 2016 revisions to the NUTS regions. Older 2011 data, which includes demographic information is also available.
+
 
 ```{r}
-shp <- cso_get_geo("County Councils")
+shp <- cso_get_geo("cc")
 ```
 
-This data can be plotted using the `leaflet` package. Here we plot the outline of each region.
+This data can be plotted using the `tmap` package. Here we plot the outline of each region.
 
 ```{r, fig.width = 5, fig.height=6, eval= !is.null(shp)}
-# install.packages("leaflet")
-library(leaflet)
-
-
-leaflet(shp) %>% 
-  addTiles() %>% 
-  addPolygons()
-
+# install.packages("tmap")
+library(tmap)
+t <- tm_shape(shp) +
+       tm_borders(col = "black") +
+       tm_layout(frame = FALSE, scale = 1.3)
+t
 
 ```
 
